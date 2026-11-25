@@ -1,0 +1,14 @@
+{
+  "kind": "line",
+  "title": "回复信息密度趋势",
+  "subtitle": "示例数据 · 纯文字 vs 可视化",
+  "footnote": "数值为演示占位，不代表真实测量",
+  "data": {
+    "labels": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"],
+    "series": [
+      {"name": "纯文字回复", "values": [42, 44, 45, 43, 46, 45], "color": "gray"},
+      {"name": "图表 + 结构化", "values": [48, 55, 63, 70, 78, 86], "color": "blue"}
+    ]
+  },
+  "options": {"yFormat": "number"}
+}

@@ -1,0 +1,14 @@
+{
+  "kind": "donut",
+  "title": "一轮回答的视觉元素构成",
+  "subtitle": "示例数据 · 仅演示环形图样式",
+  "data": {
+    "items": [
+      {"label": "结论文字", "value": 34, "color": "gray"},
+      {"label": "对比表格", "value": 22, "color": "blue"},
+      {"label": "趋势图表", "value": 26, "color": "teal"},
+      {"label": "交互小工具", "value": 18, "color": "coral"}
+    ]
+  },
+  "options": {"centerLabel": "回答构成", "centerValue": "100%"}
+}

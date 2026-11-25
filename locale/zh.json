@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "可视化回答",
+    "description": "把 `visual` 围栏渲染成铺满对话宽度的内联 SVG 卡片，把 `visual-html` 围栏渲染成隔离的交互小工具。SVG 卡片在任意 DPR 下清晰、跟随亮/暗主题，内容为 JSON spec（kind 可选 bar、grouped_bar、line、hbar、donut、stats、flow）。HTML 工具运行在无同源权限的沙箱 iframe 中；默认无任何网络（图片仅限 data:），按内容自适应高度，并继承宿主主题。围栏仍在流式生成或内容无效时，回退为普通代码块。工具里的按钮可以用 data-vz-prompt 或 window.vz.ask() 把后续问题回填到输入框（不自动发送，按回车才发送）。围栏信息串加 `cdn=1` 可放行 esm.sh（three / gsap / d3 / chart.js），其它网络目标仍被禁止。流式生成时，图表在 JSON 一成形就渲染，HTML 工具会边生成边预览。入场动效：SVG 卡片逐元素浮现（约 0.36 秒、32 毫秒错峰），HTML 工具整体淡入，流式 HTML 预览在每次更新之间做一次轻微脉冲。所有动画在 prefers-reduced-motion 下自动关闭。插件还会在系统提示里加一条精简的「呈现策略」，由 agent 自动判断用文字、表格、图表卡片还是交互工具；渲染器选择不需要第二个模型或额外 API key。"
+  }
+}

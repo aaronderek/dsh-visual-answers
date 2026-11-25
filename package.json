@@ -1,0 +1,51 @@
+{
+  "name": "@tigermaxxin/dsh-visual-answers",
+  "version": "1.1.2",
+  "description": "Inline SVG answer cards and sandboxed interactive tools for DeepSeek Harness chat: `visual` and `visual-html` fenced blocks that follow the app theme.",
+  "type": "module",
+  "license": "MIT",
+  "author": "tigermaxxin",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "plugin",
+    "visualization",
+    "charts",
+    "svg",
+    "generative-ui"
+  ],
+  "engines": {
+    "dsh": ">=0.2.2-rc.3"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "docs",
+    "icon.svg",
+    "skill",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "CHANGELOG.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-chat"
+      ]
+    }
+  }
+}

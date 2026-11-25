@@ -1,0 +1,13 @@
+{
+  "kind": "stats",
+  "title": "零安装可视化：可用能力概览",
+  "subtitle": "全部在聊天里直接显示，无需安装插件",
+  "data": {
+    "items": [
+      {"label": "内联图表", "value": "PNG", "delta": "已可用", "tone": "good", "note": "Pillow 渲染 · 2x 清晰度"},
+      {"label": "公式 / diff", "value": "原生", "delta": "内置", "tone": "flat", "note": "KaTeX + 统一 diff"},
+      {"label": "交互小工具", "value": "HTML", "delta": "点开即用", "tone": "good", "note": "右侧栏沙箱预览"},
+      {"label": "数据文件", "value": "任意", "delta": "可渲染", "tone": "flat", "note": "Office → 图片"}
+    ]
+  }
+}

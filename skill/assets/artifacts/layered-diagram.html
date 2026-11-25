@@ -1,0 +1,94 @@
+<style>
+.arch {
+  --a-page: transparent;
+  --a-outer: #ffffff;
+  --a-outer-border: rgba(0, 0, 0, 0.10);
+  --a-section: #f4f3ef;
+  --a-box: #ffffff;
+  --a-border: rgba(0, 0, 0, 0.10);
+  --a-sub: var(--color-text-secondary);
+  --a-arrow: var(--color-text-tertiary);
+  --a-purple: #6C5CE7;
+  --a-purple-soft: rgba(108, 92, 231, 0.07);
+  --a-purple-line: rgba(108, 92, 231, 0.45);
+  --a-green: #1F8A54;
+  --a-green-soft: rgba(31, 138, 84, 0.10);
+  color: var(--color-text-primary);
+}
+html[data-vz-theme="dark"] .arch {
+  --a-outer: #141416;
+  --a-outer-border: rgba(255, 255, 255, 0.08);
+  --a-section: #2a2a2d;
+  --a-box: #1b1b1e;
+  --a-border: rgba(255, 255, 255, 0.09);
+  --a-purple: #AFA9EC;
+  --a-purple-soft: rgba(175, 169, 236, 0.07);
+  --a-purple-line: rgba(175, 169, 236, 0.35);
+  --a-green: #5DCAA5;
+  --a-green-soft: rgba(93, 202, 165, 0.12);
+}
+.arch { border: 1px solid var(--a-outer-border); border-radius: 18px; background: var(--a-outer); padding: 18px; }
+.arch .layer { border-radius: 14px; background: var(--a-section); padding: 18px 20px; text-align: center; }
+.arch .title { display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 19px; font-weight: 600; letter-spacing: 0.2px; }
+.arch .sub { margin-top: 8px; font-size: 14px; color: var(--a-sub); line-height: 1.6; }
+.arch .pill { display: inline-block; margin-top: 10px; padding: 3px 11px; border-radius: 999px; font-size: 12.5px; line-height: 1.5; color: var(--a-green); background: var(--a-green-soft); }
+.arch .arrow { display: flex; justify-content: center; padding: 7px 0; color: var(--a-arrow); }
+.arch .core { border: 1px solid var(--a-purple-line); border-radius: 14px; background: var(--a-purple-soft); padding: 18px 20px 20px; }
+.arch .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.arch .cell { border: 1px solid var(--a-border); border-radius: 10px; background: var(--a-box); padding: 14px 12px; text-align: center; font-size: 14.5px; line-height: 1.4; }
+.arch .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.arch .split .layer { padding: 16px 18px; }
+.arch .split .title { font-size: 18px; }
+.arch .split .glyph { display: block; margin: 0 auto 6px; }
+.arch .glyph { flex: none; }
+@media (max-width: 560px) {
+  .arch .grid, .arch .split { grid-template-columns: 1fr; }
+}
+</style>
+<div class="arch">
+  <div class="layer">
+    <div class="title">
+      <svg class="glyph" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="color: var(--a-green)"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M8 14.5l3-3.5 2.5 2.5L16 9"/></svg>
+      持续运行的监测层
+    </div>
+    <div class="sub">Prometheus · 日志 · 数据库 · 备份任务 · 业务心跳</div>
+    <div class="pill">24/7 · 不需要 LLM</div>
+  </div>
+
+  <div class="arrow"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15"/><path d="M6 13l6 6 6-6"/></svg></div>
+
+  <div class="layer">
+    <div class="title">事件与异常检测</div>
+    <div class="sub">阈值告警 · 进展停滞 · 状态矛盾 · 趋势异常</div>
+  </div>
+
+  <div class="arrow"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15"/><path d="M6 13l6 6 6-6"/></svg></div>
+
+  <div class="core">
+    <div class="title">
+      <svg class="glyph" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="color: var(--a-purple)"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.2"/></svg>
+      Pi Durable · 常驻 Agent
+    </div>
+    <div class="grid">
+      <div class="cell">关联历史事件</div>
+      <div class="cell">自主调用诊断工具</div>
+      <div class="cell">形成根因假设</div>
+      <div class="cell">验证并提出处理方案</div>
+    </div>
+  </div>
+
+  <div class="arrow"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15"/><path d="M6 13l6 6 6-6"/></svg></div>
+
+  <div class="split">
+    <div class="layer">
+      <svg class="glyph" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="color: var(--a-green)"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-4.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="title">安全操作</div>
+      <div class="sub">按预设策略执行</div>
+    </div>
+    <div class="layer">
+      <svg class="glyph" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4.5a5 5 0 0 0-5 5v3.2l-1.6 2.7h13.2L17 12.7V9.5a5 5 0 0 0-5-5z" stroke-linejoin="round"/><path d="M10 18.6a2 2 0 0 0 4 0" stroke-linecap="round"/></svg>
+      <div class="title">高风险操作</div>
+      <div class="sub">通知人工审批</div>
+    </div>
+  </div>
+</div>

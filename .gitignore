@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.tools/
+*.tgz
+*.log
+.DS_Store
+.npmrc
+scripts/

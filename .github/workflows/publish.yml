@@ -1,0 +1,37 @@
+# npm Trusted Publishing（OIDC，无长期 token）的发布工作流模板。
+#
+# 使用前提：
+#   1. 包已存在（首次发布必须用 bypass-2FA token 或 TOTP 手动发一次——Trusted Publishing 不支持首发布）
+#   2. npmjs.com → 包设置 → Trusted Publishing 里登记：公开 GitHub 仓库 + 本 workflow 文件名（publish.yml）+ 分支
+#   3. 包和仓库都是 public；npm CLI 需要较新版本（下面用 npm@latest）
+#
+# 本文件放到仓库的 .github/workflows/publish.yml。
+# 如果包不在仓库根目录，改 working-directory。
+name: publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # OIDC：信任发布必需
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .   # 改成包目录，例如 publish/dsh-visual-answers
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: Publish with provenance (trusted publishing)
+        run: |
+          npm install -g npm@latest
+          npm publish --provenance --access public
+        # 不要设置 NODE_AUTH_TOKEN / NPM_TOKEN：有 token 时 npm 不会走 OIDC

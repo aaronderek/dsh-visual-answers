@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<title>账单分摊</title>
+<style>
+/* ── 设计 token（内联自 assets/tokens.css，来源 OpenIntelligentUI design system, MIT）── */
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f7f6f3;
+  --color-background-tertiary: #efeee9;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #73726c;
+  --color-text-tertiary: #9c9a92;
+  --color-text-info: #185FA5;
+  --color-border-secondary: rgba(0, 0, 0, 0.3);
+  --color-border-tertiary: rgba(0, 0, 0, 0.15);
+  --font-sans: system-ui, -apple-system, "PingFang SC", "Segoe UI", Roboto, sans-serif;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-primary: #1a1a18;
+    --color-background-secondary: #2c2c2a;
+    --color-background-tertiary: #222220;
+    --color-text-primary: #e8e6de;
+    --color-text-secondary: #9c9a92;
+    --color-text-tertiary: #73726c;
+    --color-text-info: #85B7EB;
+    --color-border-secondary: rgba(255, 255, 255, 0.3);
+    --color-border-tertiary: rgba(255, 255, 255, 0.15);
+  }
+}
+
+* { box-sizing: border-box; margin: 0; }
+html, body { background: transparent; }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  padding: 20px 18px 26px;
+}
+#content { max-width: 780px; margin: 0 auto; }
+
+h1 { font-size: 22px; font-weight: 600; letter-spacing: 0.2px; }
+.sub { color: var(--color-text-secondary); font-size: 13.5px; margin-top: 4px; }
+
+.panel {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 14px;
+}
+@media (max-width: 620px) { .panel { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-xl);
+  padding: 18px;
+}
+
+.row + .row { margin-top: 14px; }
+.label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13.5px; color: var(--color-text-secondary); }
+.label b { font-size: 15px; color: var(--color-text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
+input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 4px; margin-top: 8px;
+  background: var(--color-border-tertiary); border-radius: 2px; border: none; outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-secondary);
+  cursor: pointer; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-secondary); cursor: pointer;
+}
+
+.result { display: flex; flex-direction: column; justify-content: center; }
+.result .cap { font-size: 13px; color: var(--color-text-secondary); }
+.result .big { font-size: 44px; font-weight: 600; letter-spacing: -0.5px; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.result .big span { font-size: 22px; font-weight: 500; color: var(--color-text-secondary); margin-right: 2px; }
+.result .meta { font-size: 13px; color: var(--color-text-secondary); margin-top: 10px; font-variant-numeric: tabular-nums; }
+
+.splitbar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 16px; background: var(--color-background-tertiary); }
+.splitbar i { display: block; height: 100%; transition: width 0.25s ease; }
+.legend { display: flex; gap: 16px; margin-top: 10px; font-size: 12.5px; color: var(--color-text-secondary); }
+.legend s { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; text-decoration: none; }
+
+.foot { margin-top: 14px; font-size: 12px; color: var(--color-text-tertiary); }
+
+#content.initial-render > * { animation: fadeSlideIn 0.4s ease-out both; }
+#content.initial-render > *:nth-child(2) { animation-delay: 0.08s; }
+#content.initial-render > *:nth-child(3) { animation-delay: 0.14s; }
+@keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+<div id="content" class="initial-render">
+  <header>
+    <h1>分摊这一单</h1>
+    <p class="sub">拖动下面的滑杆，金额和拆分方式会立刻更新。示例工具，数值只在本页计算。</p>
+  </header>
+
+  <section class="panel">
+    <div class="card">
+      <div class="row">
+        <div class="label"><span>账单总额</span><b id="v-total">¥320</b></div>
+        <input id="total" type="range" min="40" max="2000" step="10" value="320" aria-label="账单总额">
+      </div>
+      <div class="row">
+        <div class="label"><span>小费比例</span><b id="v-tip">15%</b></div>
+        <input id="tip" type="range" min="0" max="30" step="1" value="15" aria-label="小费比例">
+      </div>
+      <div class="row">
+        <div class="label"><span>分摊人数</span><b id="v-people">4 人</b></div>
+        <input id="people" type="range" min="1" max="12" step="1" value="4" aria-label="分摊人数">
+      </div>
+      <div class="splitbar" aria-hidden="true">
+        <i id="bar-base" style="width: 87%; background: #185FA5"></i>
+        <i id="bar-tip" style="width: 13%; background: #0F6E56"></i>
+      </div>
+      <div class="legend">
+        <span><s style="background:#185FA5"></s>餐费 <b id="l-base">¥320.00</b></span>
+        <span><s style="background:#0F6E56"></s>小费 <b id="l-tip">¥48.00</b></span>
+      </div>
+    </div>
+
+    <div class="card result">
+      <div class="cap">每人应付</div>
+      <div class="big"><span>¥</span><b id="per">92.00</b></div>
+      <div class="meta">含小费合计 <b id="total-all">¥368.00</b> · <span id="people-note">4 人平摊</span></div>
+    </div>
+  </section>
+
+  <p class="foot">示例数据；滑杆范围与默认值均由生成此文件的模板给出，不连接任何外部服务。</p>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var total = $('total'), tip = $('tip'), people = $('people');
+  var money = function (n) { return '¥' + n.toFixed(2); };
+
+  function refresh() {
+    var base = Number(total.value);
+    var tipPct = Number(tip.value);
+    var n = Number(people.value);
+    var tipAmt = base * tipPct / 100;
+    var all = base + tipAmt;
+    var per = all / n;
+
+    $('v-total').textContent = '¥' + base.toLocaleString('zh-CN');
+    $('v-tip').textContent = tipPct + '%';
+    $('v-people').textContent = n + ' 人';
+    $('per').textContent = per.toFixed(2);
+    $('total-all').textContent = money(all);
+    $('people-note').textContent = n + ' 人平摊';
+    $('l-base').textContent = money(base);
+    $('l-tip').textContent = money(tipAmt);
+    var baseShare = all > 0 ? (base / all) * 100 : 100;
+    $('bar-base').style.width = baseShare.toFixed(2) + '%';
+    $('bar-tip').style.width = (100 - baseShare).toFixed(2) + '%';
+  }
+
+  [total, tip, people].forEach(function (el) { el.addEventListener('input', refresh); });
+  refresh();
+  // 首帧错峰动画只跑一次
+  requestAnimationFrame(function () { $('content').classList.remove('initial-render'); });
+})();
+</script>
+</body>
+</html>

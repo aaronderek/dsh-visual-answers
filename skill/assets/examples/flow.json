@@ -1,0 +1,14 @@
+{
+  "kind": "flow",
+  "title": "从问题到可视化的判断路径",
+  "subtitle": "同一套零安装流程，不需要插件",
+  "data": {
+    "steps": [
+      {"label": "看懂问题", "detail": "要对比？看趋势？还是需要一个能手算的工具？", "color": "gray"},
+      {"label": "选表达", "detail": "表格 / 图表 PNG / 交互 HTML / 原生公式", "color": "blue"},
+      {"label": "渲染并自检", "detail": "viz.py 出图，读回检查可读性", "color": "teal"},
+      {"label": "放进回复", "detail": "内联图片 + 可点开的交互件", "color": "coral"}
+    ]
+  },
+  "options": {"direction": "horizontal"}
+}

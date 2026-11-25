@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Visual answers",
+    "description": "Turns a `visual` fenced block into an inline SVG card spanning the full conversation width, and a `visual-html` fenced block into an isolated interactive tool. SVG cards stay sharp on high-DPI screens, follow the light or dark theme, and render from a JSON spec (kind: bar, grouped_bar, line, hbar, donut, stats, flow). HTML tools run in a sandboxed iframe with no same-origin access; they have no network by default (images are limited to data:), auto-size to their content, and receive the host theme. While a block is streaming or invalid, it renders as a normal code block instead. A tool can hand a follow-up back to the composer with data-vz-prompt or window.vz.ask(); the text is inserted into the draft and only sent when the user presses Enter. Add `cdn=1` to the info string to allow esm.sh for three, gsap, d3, and chart.js; every other network destination stays blocked. While a block streams, charts appear as soon as the JSON parses and HTML tools render in a live preview. Entrance motion: SVG cards fade in element by element (about 0.36 s, 32 ms stagger), HTML tools fade in as one block, and a streaming HTML preview pulses between updates. All animation is skipped under prefers-reduced-motion. The plugin also adds one compact presentation policy to the system prompt, so the agent decides on its own whether plain text, a table, a chart card, or an interactive tool fits the answer; the renderer choice needs no second model or API key.",
+    "detail": "docs/DETAIL.md"
+  }
+}

@@ -1,12 +1,18 @@
-# npm Trusted Publishing（OIDC，无长期 token）的发布工作流模板。
+# npm Trusted Publishing（OIDC，无长期 token）的发布工作流。
 #
 # 使用前提：
-#   1. 包已存在（首次发布必须用 bypass-2FA token 或 TOTP 手动发一次——Trusted Publishing 不支持首发布）
-#   2. npmjs.com → 包设置 → Trusted Publishing 里登记：公开 GitHub 仓库 + 本 workflow 文件名（publish.yml）+ 分支
-#   3. 包和仓库都是 public；npm CLI 需要较新版本（下面用 npm@latest）
+#   1. 包已存在（首次发布必须手动发一次；Trusted Publishing 不支持首发布）
+#   2. npmjs.com → 包设置 → Trusted Publishing 登记：
+#        Publisher: GitHub Actions
+#        Organization: aaronderek
+#        Repository: dsh-visual-answers
+#        Workflow filename: publish.yml
+#        Environment name: 留空
+#        Allowed actions: 只允许 stage publish（本工作流用它），不勾 npm publish
+#   3. 包和仓库都是 public；npm CLI 需要较新版本（下面安装 npm@latest）
 #
-# 本文件放到仓库的 .github/workflows/publish.yml。
-# 如果包不在仓库根目录，改 working-directory。
+# 本工作流只做「暂存」：跑完后到 npm 的 Staged Packages（或 `npm stage list`）
+# 用 2FA 批准，才会真正发布。stage id 会写进本次 Actions 的 Summary。
 name: publish
 
 on:
@@ -23,15 +29,22 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: .   # 改成包目录，例如 publish/dsh-visual-answers
+        working-directory: . # 包在仓库根；如果包在子目录，改成对应路径
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
-      - name: Publish with provenance (trusted publishing)
+      - name: Stage with provenance (trusted publishing)
         run: |
           npm install -g npm@latest
-          npm publish --provenance --access public
+          npm --version
+          npm stage publish --provenance --access public 2>&1 | tee /tmp/stage.log
+          {
+            echo "### Staged version"
+            grep -oE '@[^ ]+@[0-9][^ ]* \(staged with id [0-9a-f-]{36}\)' /tmp/stage.log || true
+            echo ""
+            echo "审批：npm stage approve <stage-id>（需要 2FA），或在 npm Staged Packages 页面批准。"
+          } >> "$GITHUB_STEP_SUMMARY"
         # 不要设置 NODE_AUTH_TOKEN / NPM_TOKEN：有 token 时 npm 不会走 OIDC

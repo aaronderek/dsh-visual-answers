@@ -47,5 +47,13 @@
         "@deepseek-ai/dsh-client-ui-chat"
       ]
     }
+  },
+  "homepage": "https://github.com/tigermaxxin/dsh-visual-answers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tigermaxxin/dsh-visual-answers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tigermaxxin/dsh-visual-answers/issues"
   }
 }

@@ -28,13 +28,13 @@ the fences.
 **Plugins UI** — open **Plugins** → **Add plugin**, paste the install spec:
 
 ```
-@tigermaxxin/dsh-visual-answers@1.1.0
+@tigermaxxin/dsh-visual-answers@1.1.2
 ```
 
 **Agent tool** — ask DSH to run:
 
 ```
-plugin_manager install_bundle target=@tigermaxxin/dsh-visual-answers@1.1.0
+plugin_manager install_bundle target=@tigermaxxin/dsh-visual-answers@1.1.2
 ```
 
 **Local checkout** — pass the absolute package directory, or a packed tarball

@@ -48,12 +48,12 @@
       ]
     }
   },
-  "homepage": "https://github.com/tigermaxxin/dsh-visual-answers#readme",
+  "homepage": "https://github.com/aaronderek/dsh-visual-answers#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tigermaxxin/dsh-visual-answers.git"
+    "url": "git+https://github.com/aaronderek/dsh-visual-answers.git"
   },
   "bugs": {
-    "url": "https://github.com/tigermaxxin/dsh-visual-answers/issues"
+    "url": "https://github.com/aaronderek/dsh-visual-answers/issues"
   }
 }
